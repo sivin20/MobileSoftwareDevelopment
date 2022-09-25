@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, ScrollView, Button, Image } from 'react-native';
 import { useEffect, useState } from 'react';
 
 export default function MovieDetailScreen({route, navigation}) {
   const {id, title, release_date, poster_path, overview, vote_average} = route.params;
   useEffect(() => console.log("here"),[]);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.date}>{release_date}</Text>
         <Image
@@ -23,13 +23,13 @@ export default function MovieDetailScreen({route, navigation}) {
             title="Go Back"
             onPress={() => navigation.navigate('Movies')}
           />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C8E7F5',
+    backgroundColor: "#C8E7F5",
     textAlign: "center",
   },
   title: {
@@ -38,18 +38,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold",
     color: "#0671B7",
+    textAlign: "center",
   },
   img: {
-    width: "300px",
-    height: "450px",
+    width: 300,
+    height: 450,
     border: "1px solid #FFF",
     borderRadius: 15,
     alignSelf: "center",
   },
   date: {
-    fontSize: "12",
+    fontSize: 12,
     color: "#F675A8",
     marginBottom: 14,
+    textAlign: "center",
   },
   h2: {
     fontSize: 24,

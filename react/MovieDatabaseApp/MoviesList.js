@@ -55,13 +55,13 @@ export default function MoviesList({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     border: "2px solid #FFF",
     borderRadius: 10,
     overflow: "hidden",
     margin: 10,
     display: "flex",
-    flex: "2",
+    flex: 2,
     flexDirection: "row",
     boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
   },
