@@ -11,6 +11,7 @@ export default function PopularMoviesScreen({navigation}) {
         <Text style={styles.bread}>Click on a movie to see details!</Text>
         <MoviesList navigation={navigation}/>
         <Button
+            style={{alignSelf: "flex-start",}}
             color="#F8B7CD"
             title="Go Home"
             onPress={() => navigation.navigate('Home')}

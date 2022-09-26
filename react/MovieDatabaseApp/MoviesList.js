@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: "row",
     boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+    maxWidth: 600,
   },
   title: {
     fontSize: 16,
