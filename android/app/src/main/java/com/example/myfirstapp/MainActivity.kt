@@ -6,11 +6,16 @@ import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.widget.EditText
+import com.example.myfirstapp.database.AppDatabase
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var db : AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        db = AppDatabase.getInstance(this)!!
     }
 
     fun sendMessage(view: View) {
