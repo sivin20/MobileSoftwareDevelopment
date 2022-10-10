@@ -21,6 +21,7 @@ abstract class AppDatabase : RoomDatabase() {
                         AppDatabase::class.java,
                         "movies"
                     )
+                        .allowMainThreadQueries()
                         .addCallback(DatabasePrefilling(context))
                         .build()
                 }
