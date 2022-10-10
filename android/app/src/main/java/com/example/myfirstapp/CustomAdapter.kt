@@ -9,7 +9,6 @@ import com.example.myfirstapp.database.Movie
 
 class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val movieID : TextView = view.findViewById(R.id.movieID)
         val movieTitle : TextView = view.findViewById(R.id.movieTitle)
         val movieOverview : TextView = view.findViewById(R.id.movieOverview)
         val movieRelease : TextView = view.findViewById(R.id.movieRelease)
@@ -23,7 +22,6 @@ class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<Cus
     override fun getItemCount() = dataSet.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.movieID.text =dataSet[position].uid.toString()
         holder.movieTitle.text = dataSet[position].title
         holder.movieOverview.text =dataSet[position].overview
         holder.movieRelease.text =dataSet[position].release_date

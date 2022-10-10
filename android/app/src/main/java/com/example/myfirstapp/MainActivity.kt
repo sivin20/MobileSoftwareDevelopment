@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myfirstapp.database.AppDatabase
@@ -22,8 +24,15 @@ class MainActivity : AppCompatActivity() {
 
         var recyclerView : RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
-        var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        var layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = layoutManager
+        if(db.movieDao().getAll().isNotEmpty()) {
+            Log.d("isNotEmpty", "It aint empty")
+            for(movie in db.movieDao().getAll()) {
+                Log.d("title", movie.title.toString())
+            }
+        }
+
         adapter = CustomAdapter(db.movieDao().getAll())
         recyclerView.adapter = adapter
     }
