@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.database.Movie
+
 
 class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -26,5 +28,4 @@ class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<Cus
         holder.movieOverview.text =dataSet[position].overview
         holder.movieRelease.text =dataSet[position].release_date
     }
-
 }

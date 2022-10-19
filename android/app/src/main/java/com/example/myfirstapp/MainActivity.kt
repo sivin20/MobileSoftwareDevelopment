@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myfirstapp.database.AppDatabase
+import com.example.myfirstapp.database.Movie
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,17 +22,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         db = AppDatabase.getInstance(this)!!
+        setRecyclerView()
 
+    }
+
+    private fun setRecyclerView() {
         var recyclerView : RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
         var layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = layoutManager
-        if(db.movieDao().getAll().isNotEmpty()) {
-            Log.d("isNotEmpty", "It aint empty")
-            for(movie in db.movieDao().getAll()) {
-                Log.d("title", movie.title.toString())
-            }
-        }
 
         adapter = CustomAdapter(db.movieDao().getAll())
         recyclerView.adapter = adapter
@@ -43,11 +42,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendMessage(view: View) {
-        val editText = findViewById<EditText>(R.id.editTextTextPersonName)
+        val editText = findViewById<EditText>(R.id.addTitle)
         val message = editText.text.toString();
         val intent = Intent(this, DisplayMessageActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, message)
         }
         startActivity(intent)
+    }
+    fun addMovie(view: View) {
+        val title = findViewById<EditText>(R.id.addTitle)
+        val date = findViewById<EditText>(R.id.addDate)
+        val overview = findViewById<EditText>(R.id.addOverview)
+        val uid = (0..10000000).random()
+        val movie =  Movie(uid, title.text.toString(), overview.text.toString(), date.text.toString())
+        db.movieDao().insert(movie)
+        title.getText().clear()
+        overview.getText().clear()
+        date.getText().clear()
+        setRecyclerView()
     }
 }
