@@ -1,5 +1,7 @@
 package com.example.myfirstapp
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.database.AppDatabase
 import com.example.myfirstapp.database.Movie
 import com.example.myfirstapp.fragment.MovieFragment
+import java.io.Console
 
 
 class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
@@ -21,8 +24,13 @@ class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<Cus
         val deleteRow : ImageView = view.findViewById(R.id.deleteRow)
     }
 
+    private lateinit var context :Context
+    lateinit var db : AppDatabase
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.text_row_item, viewGroup, false)
+        context = viewGroup.context
+        db = AppDatabase.getInstance(context)!!
         return ViewHolder(view)
     }
 
@@ -32,13 +40,17 @@ class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<Cus
         holder.movieTitle.text = dataSet[position].title
         holder.movieOverview.text =dataSet[position].overview
         holder.movieRelease.text =dataSet[position].release_date
+        holder.deleteRow.setOnClickListener{
+            db.movieDao().deleteFromTitle(holder.movieTitle.text.toString())
+            holder.movieTitle.text = "This has been deleted"
+            Log.d("Movie Deletion", "This Works" + holder.movieTitle.text.toString())
+        }
         holder.itemView.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
                 val activity=v!!.context as AppCompatActivity
                 val movieFragment=MovieFragment()
                 activity.supportFragmentManager.beginTransaction().replace(R.id.constraintLayout, movieFragment).addToBackStack(null).commit()
             }
-
         })
     }
 }

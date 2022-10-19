@@ -17,6 +17,9 @@ interface MovieDao {
             "overview LIKE :last LIMIT 1")
     fun findByName(first: String, last: String): Movie
 
+    @Query("DELETE FROM movies WHERE title = :title")
+    fun deleteFromTitle(title: String)
+
     @Insert
     fun insertAll(vararg movies: Movie)
 
