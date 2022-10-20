@@ -31,8 +31,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         var layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = layoutManager
-
-        adapter = CustomAdapter(db.movieDao().getAll())
+        adapter = CustomAdapter(db.movieDao().getAll() as MutableList<Movie>)
         recyclerView.adapter = adapter
     }
 

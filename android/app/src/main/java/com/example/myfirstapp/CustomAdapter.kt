@@ -1,6 +1,7 @@
 package com.example.myfirstapp
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,10 @@ import com.example.myfirstapp.database.AppDatabase
 import com.example.myfirstapp.database.Movie
 import com.example.myfirstapp.fragment.MovieFragment
 import java.io.Console
+import kotlin.math.log
 
 
-class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private val dataSet: MutableList<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle : TextView = view.findViewById(R.id.movieTitle)
         val movieOverview : TextView = view.findViewById(R.id.movieOverview)
@@ -36,21 +38,40 @@ class CustomAdapter(private val dataSet: List<Movie>) : RecyclerView.Adapter<Cus
 
     override fun getItemCount() = dataSet.size
 
+    fun deleteItem(title: String): String {
+        db.movieDao().deleteFromTitle(title)
+        Log.d("Movie Deletion", "Deleted movie with title: " + title)
+        return "This has been deleted"
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.movieTitle.text = dataSet[position].title
-        holder.movieOverview.text =dataSet[position].overview
-        holder.movieRelease.text =dataSet[position].release_date
+        var overview = dataSet[position].overview
+        holder.movieOverview.text = overview.take(100) + " ..."
+        holder.movieRelease.text = dataSet[position].release_date
         holder.deleteRow.setOnClickListener{
-            db.movieDao().deleteFromTitle(holder.movieTitle.text.toString())
-            holder.movieTitle.text = "This has been deleted"
-            Log.d("Movie Deletion", "This Works" + holder.movieTitle.text.toString())
+            deleteItem(holder.movieTitle.text.toString())
+            dataSet.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, dataSet.size)
         }
         holder.itemView.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
                 val activity=v!!.context as AppCompatActivity
-                val movieFragment=MovieFragment()
-                activity.supportFragmentManager.beginTransaction().replace(R.id.constraintLayout, movieFragment).addToBackStack(null).commit()
+                var bundle = createBundle(holder.movieTitle.text.toString(), overview, holder.movieRelease.text.toString())
+                val movieFragment = MovieFragment()
+                movieFragment.arguments = bundle
+                activity.supportFragmentManager.beginTransaction().replace(R.id.constraintLayout, movieFragment, "movieDetailsTag").addToBackStack(null).commit()
+                Log.d("tag", movieFragment.tag.toString())
             }
         })
+    }
+
+    fun createBundle(title: String, overview: String, date: String) :Bundle {
+        var bundle : Bundle = Bundle()
+        bundle.putString("title", title)
+        bundle.putString("overview", overview)
+        bundle.putString("date", date)
+        return bundle
     }
 }

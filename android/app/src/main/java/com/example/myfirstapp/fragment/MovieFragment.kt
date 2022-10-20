@@ -1,16 +1,16 @@
 package com.example.myfirstapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import com.example.myfirstapp.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -18,16 +18,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class MovieFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    var title: String = ""
+    var overview: String = ""
+    var date: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        title = this.arguments?.getString("title").toString()
+        overview = this.arguments?.getString("overview").toString()
+        date = this.arguments?.getString("date").toString()
     }
 
     override fun onCreateView(
@@ -38,23 +38,25 @@ class MovieFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MovieFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MovieFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onStart() {
+        super.onStart()
+        var view = view
+        if(view!=null) {
+            val titleView : TextView = view.findViewById<TextView>(R.id.detailTitle).apply { text = title }
+            val dateView : TextView = view.findViewById<TextView>(R.id.detailDate).apply { text = date }
+            val overviewView : TextView = view.findViewById<TextView>(R.id.detailOverview).apply { text = overview }
+            val backBtn: Button = view.findViewById<Button>(R.id.backBtn)
+            backBtn.setOnClickListener(object :View.OnClickListener{
+                override fun onClick(v: View?) {
+                    val activity=v!!.context as AppCompatActivity
+                    val transaction :FragmentTransaction = activity.supportFragmentManager.beginTransaction()
+                    var fragment = activity.supportFragmentManager.findFragmentByTag("movieDetailsTag")
+                    if (fragment != null) {
+                        transaction.remove(fragment).commit()
+                    }
+
                 }
-            }
+            })
+        }
     }
 }
