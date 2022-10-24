@@ -20,7 +20,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "MovieDatabase"
                 )
-                    .allowMainThreadQueries()
                     .createFromAsset("database/movie.db")
                     .build()
             }

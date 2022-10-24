@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myfirstapp.database.AppDatabase
 import com.example.myfirstapp.database.Movie
 
@@ -17,21 +16,52 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var db : AppDatabase
     lateinit var adapter : CustomAdapter
+    var list :MutableList<Movie> = arrayListOf()
+    lateinit var listThread : ListThread
+    lateinit var recyclerView : RecyclerView
+
+    inner class ListThread : Thread() {
+        override fun run() {
+            super.run()
+            list = db.movieDao().getAll() as MutableList<Movie>
+            runOnUiThread(Runnable {
+                adapter.notifyDataSetChanged()
+                adapter = CustomAdapter(list)
+                recyclerView.adapter = adapter
+                Log.d("Log", list.size.toString())
+            })
+        }
+    }
+
+    inner class AddToDatabaseThread(title: String, overview: String, date: String) : Thread() {
+        val movie =  Movie(0, title, overview, date)
+        override fun run() {
+            super.run()
+            db.movieDao().insert(movie)
+            runOnUiThread(Runnable{
+                list.add(movie)
+                adapter.notifyDataSetChanged()
+            })
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         db = AppDatabase.getInstance(this)!!
+        listThread = ListThread()
+        adapter = CustomAdapter(list)
+
+
+
         setRecyclerView()
-
+        listThread.start()
     }
-
     private fun setRecyclerView() {
-        var recyclerView : RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
         var layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = layoutManager
-        adapter = CustomAdapter(db.movieDao().getAll() as MutableList<Movie>)
         recyclerView.adapter = adapter
     }
 
@@ -52,12 +82,10 @@ class MainActivity : AppCompatActivity() {
         val title = findViewById<EditText>(R.id.addTitle)
         val date = findViewById<EditText>(R.id.addDate)
         val overview = findViewById<EditText>(R.id.addOverview)
-        val uid = (0..10000000).random()
-        val movie =  Movie(uid, title.text.toString(), overview.text.toString(), date.text.toString())
-        db.movieDao().insert(movie)
+        var thread = AddToDatabaseThread(title.text.toString(), overview.text.toString(), date.text.toString())
+        thread.start()
         title.getText().clear()
         overview.getText().clear()
         date.getText().clear()
-        setRecyclerView()
     }
 }

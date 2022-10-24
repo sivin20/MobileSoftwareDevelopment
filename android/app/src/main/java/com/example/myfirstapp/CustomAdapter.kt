@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.database.AppDatabase
 import com.example.myfirstapp.database.Movie
 import com.example.myfirstapp.fragment.MovieFragment
-import java.io.Console
-import kotlin.math.log
 
 
 class CustomAdapter(private val dataSet: MutableList<Movie>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
@@ -28,6 +25,15 @@ class CustomAdapter(private val dataSet: MutableList<Movie>) : RecyclerView.Adap
 
     private lateinit var context :Context
     lateinit var db : AppDatabase
+    lateinit var deleteThread: DeleteThread
+
+    inner class DeleteThread(title: String) : Thread() {
+        var title = title
+        override fun run() {
+            super.run()
+            db.movieDao().deleteFromTitle(title)
+        }
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.text_row_item, viewGroup, false)
@@ -38,19 +44,15 @@ class CustomAdapter(private val dataSet: MutableList<Movie>) : RecyclerView.Adap
 
     override fun getItemCount() = dataSet.size
 
-    fun deleteItem(title: String): String {
-        db.movieDao().deleteFromTitle(title)
-        Log.d("Movie Deletion", "Deleted movie with title: " + title)
-        return "This has been deleted"
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.movieTitle.text = dataSet[position].title
         var overview = dataSet[position].overview
         holder.movieOverview.text = overview.take(100) + " ..."
         holder.movieRelease.text = dataSet[position].release_date
         holder.deleteRow.setOnClickListener{
-            deleteItem(holder.movieTitle.text.toString())
+            deleteThread = DeleteThread(holder.movieTitle.text.toString())
+            deleteThread.start()
+
             dataSet.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, dataSet.size)

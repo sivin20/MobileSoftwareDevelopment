@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.example.myfirstapp.CustomAdapter
 import com.example.myfirstapp.R
+import com.example.myfirstapp.database.Movie
 
 /**
  * A simple [Fragment] subclass.
@@ -54,7 +56,6 @@ class MovieFragment : Fragment() {
                     if (fragment != null) {
                         transaction.remove(fragment).commit()
                     }
-
                 }
             })
         }

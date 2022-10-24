@@ -24,7 +24,7 @@ interface MovieDao {
     fun insertAll(vararg movies: Movie)
 
     @Insert
-    fun insert(movie: Movie)
+    fun insert(movie: Movie) : Long
 
     @Delete
     fun delete(movie: Movie)
