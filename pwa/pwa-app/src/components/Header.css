@@ -1,0 +1,17 @@
+.header {
+    background-color: skyblue;
+    margin: 0 auto;
+    min-height: 40px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+}
+.header .header-title {
+    color: black;
+    margin: 0 auto;
+    font-size: 20px;
+}
+.header .link:visited, .link:active, .link:link, .link:hover {
+    text-decoration: none;
+    color: black;
+}
