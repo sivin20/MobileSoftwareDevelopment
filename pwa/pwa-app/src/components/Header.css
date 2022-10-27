@@ -1,17 +1,26 @@
 .header {
-    background-color: skyblue;
-    margin: 0 auto;
+    background-color: black;
+    padding: 20px;
     min-height: 40px;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
+    justify-items: left;
 }
 .header .header-title {
-    color: black;
+    color: skyblue;
     margin: 0 auto;
     font-size: 20px;
 }
+.header .linkGrid {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
 .header .link:visited, .link:active, .link:link, .link:hover {
     text-decoration: none;
-    color: black;
+    color: skyblue;
+}
+.header .link img {
+    height: 50px;
 }

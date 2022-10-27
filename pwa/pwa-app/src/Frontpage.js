@@ -1,6 +1,11 @@
 
+import { Form } from './components/Form';
+
 export default function FrontPage() {
     return(
-        <div>Frontpage</div>
+        <>
+            <div>Frontpage</div>
+            <Form/>
+        </>
     )
 }
