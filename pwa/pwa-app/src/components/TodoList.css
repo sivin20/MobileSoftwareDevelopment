@@ -1,0 +1,23 @@
+
+.table {
+    margin: 0 auto;
+    border-radius: 10px;
+    width: 80%;
+    align-items: left;
+    border-collapse: collapse;
+}
+.table td:first-child {
+    width: 20px;
+}
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #bbb
+}
+.btn {
+    background-color: white;
+    color: red;
+    border: 1px solid white;
+}
+.td_btn {
+    text-align: right;
+}

@@ -1,14 +1,35 @@
 .form {
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
-.form .text {
-    border: 1px solid plum;
-    border-bottom-left-radius: 25px;
-    border-top-left-radius: 25px;
+.form .textBox {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    height: 40px;
+    margin-right: 10px;
+}
+.form .textBox .fa {
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #bbb;
+}
+.form .textField {
+    border: none;
+    height: inherit;
+    padding: 0px;
+    border-radius: 5px;
+}
+.form .textField:focus {
+    outline:none;
 }
 .form .add-btn {
-    background-color: plum;
-    border: 1px solid plum;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    background-color: skyblue;
+    color: white;
+    border: 1px solid skyblue;
+    border-radius: 5px;
+    height: 40px;
+    min-width: 60px;
 }

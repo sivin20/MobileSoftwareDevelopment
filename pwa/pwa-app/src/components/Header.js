@@ -1,14 +1,14 @@
 import "./Header.css"
-import {BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export function Header() {
     return(
         <div className="header">
             <Link to="/" className="link linkGrid">
-                <img src="logo192.png"></img>
+                <img src="logo192.png" alt="logo"></img>
                 <p className="header-title">Todo</p>
             </Link>
-            <Link to="/page2" className="link">MovieDetail</Link>
+            <Link to="/about" className="link">About me</Link>
         </div>
     )
 }

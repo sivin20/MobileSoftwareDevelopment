@@ -1,11 +1,10 @@
-import React, {Suspense, lazy} from 'react';
-import logo from './logo.svg';
+import React, {Suspense, lazy, useState} from 'react';
 import './App.css';
-import {BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import FrontPage from './Frontpage';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Header } from './components/Header';
 
-const MovieDetailPage = lazy(()=> import("./MovieDetailPage"));
+const About = lazy(()=> import("./About"));
+const Frontpage = lazy(()=> import("./Frontpage"))
 
 function App() {
   return (
@@ -13,8 +12,8 @@ function App() {
       <Header/>
       <Suspense fallback="I am loading..">
         <Routes>
-          <Route index element={<FrontPage/>}/>
-          <Route path="/page2" element={<MovieDetailPage/>}/>
+          <Route index element={<Frontpage/>}/>
+          <Route path="/about" element={<About/>}/>
         </Routes>
       </Suspense>
     </BrowserRouter>
