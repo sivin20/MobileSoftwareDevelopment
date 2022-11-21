@@ -1,8 +1,8 @@
-import "./Form.css"
+import "../styles/Form.css"
 import React, {useState} from "react";
 import {v4 as uuid} from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export function Form({ addTodo }) {
 

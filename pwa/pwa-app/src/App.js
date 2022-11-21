@@ -1,5 +1,4 @@
-import React, {Suspense, lazy, useState} from 'react';
-import './App.css';
+import React, {Suspense, lazy} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Header } from './components/Header';
 

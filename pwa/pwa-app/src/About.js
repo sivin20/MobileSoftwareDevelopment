@@ -8,7 +8,7 @@ export default function About() {
             <p>To go back to the todo app, click the logo in the header, or click the button below</p>
             <button style={{backgroundColor: 'skyblue', border: "1px solid skyblue", borderRadius: 5}}>
                 <Link to="/" style={{color:"white", textDecoration:"none"}}>
-                    <p>go back</p>    
+                    <p>go back</p>
                 </Link>
             </button>
         </div>

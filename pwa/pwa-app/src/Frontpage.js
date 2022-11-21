@@ -11,17 +11,17 @@ export default function FrontPage() {
     const [todos, setTodos] = useState([]);
 
     useEffect(()=>{
-        console.log("I fire once")
+        console.log("I run once")
         const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
         if(storage) {
             setTodos(storage);
-            console.log(storage)
+            console.log("storage", storage)
         }
     }, []);
 
     useEffect(()=>{
         localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-        console.log("Stored" + JSON.stringify(todos));
+        console.log("Stored", JSON.stringify(todos));
     }, [todos]);
 
     function addTodo(todo) {
